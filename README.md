@@ -5,7 +5,7 @@ This repository provides the Erlang files necessary for Riak to use Seagate
 Kinetic Drives for key-value storage.
 
 For more information about Seagate's Kinetic Drive, please see
-[developer.seagate.com](http://developer.seagate.com/).
+[developers.seagate.com](http://developers.seagate.com/).
 
 Installation
 ------------
