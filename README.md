@@ -4,12 +4,25 @@ riak_kinetic
 This repository provides the Erlang files necessary for Riak to use Seagate
 Kinetic Drives for key-value storage.
 
+For more information about Seagate's Kinetic Drive, please see
+[developer.seagate.com](http://developer.seagate.com/).
+
 Installation
 ------------
 
 These instructions assume you're willing to perform a source install of
 Riak 1.4.2 from github. The instructions also assume you already have
-Seagate's Kinetic Drive simulator accessible on `localhost` at port 8123.
+Seagate's Kinetic Drive simulator, which you can get from
+[github.com/Seagate/Kinetic-Preview](https://github.com/Seagate/Kinetic-Preview),
+already running on `localhost` at port
+8123.
+
+These instructions also assume you've already installed Erlang,
+[as explained here](http://docs.basho.com/riak/latest/ops/building/installing/erlang/).
+
+Note that the `riak-install` script at the top level of this repository
+contains all the installation commands, so feel free to execute the script
+instead of copying and pasting the following commands.
 
 First, clone this repository:
 
@@ -17,7 +30,7 @@ First, clone this repository:
 
 Next, clone `riak` and fetch all its dependencies:
 
-    git clone git@github.com:basho/riak.git
+    git clone https://github.com/basho/riak.git
     cd riak
     git checkout riak-1.4.2
     ./rebar get-deps
@@ -43,4 +56,6 @@ port 8123, please adjust the `perl` command below appropriately.
 
 After this, please start `riak`
 [as described here](http://docs.basho.com/riak/latest/quickstart/#Start-Up-Five-Nodes),
-starting with the second step (`cd dev`).
+starting with the second step (`cd dev`). Note that if you ran the
+`riak-install` script, you need to `cd riak/dev` instead before proceeding
+with these steps.

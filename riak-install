@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -e
+
+# This script clones Riak as well as the support files needed to run Riak
+# on Seagate's Kinetic Drive simulator. It creates two directories in your
+# current working directory: riak and riak_kinetic.
+
+# first, clone this repository
+git clone https://github.com/basho-labs/riak_kinetic.git
+
+# next, clone riak and fetch all its dependencies
+git clone https://github.com/basho/riak.git
+cd riak
+git checkout riak-1.4.2
+./rebar get-deps
+
+# next, install the ekinetic driver and dependencies as a dependency for
+# riak_kv
+
+mkdir -p deps/ekinetic/ebin
+cp ../riak_kinetic/ebin/ekinetic* ../riak_kinetic/ebin/kinetic* deps/ekinetic/ebin
+( cd deps/protobuffs ; git checkout master )
+perl -i -pe 's/(riak_pipe)/\1,ekinetic/' deps/riak_kv/src/riak_kv.app.src
+
+# now, make a riak devrel release and install the
+# riak_kv_ekinetic_backend as shown below. note that if you're running
+# Seagate's Kinetic Drive simulator on an endpoint other than localhost
+# port 8123, please adjust the perl command below appropriately
+
+make devrel
+for i in {1..5} ; do
+  cp ../riak_kinetic/ebin/riak_kv_ekinetic_backend.beam dev/dev$i/lib/basho-patches
+  perl -i -pe 's/(storage_backend,\s*)[^}]+/\1riak_kv_ekinetic_backend/; print "{ekinetic, [{ip_port,{\"localhost\",8123}}]},\n" if (/%%\s*Bitcask/);' dev/dev$i/etc/app.config
+done
+
+exit 0
