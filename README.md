@@ -7,6 +7,10 @@ Kinetic Drives for key-value storage.
 For more information about Seagate's Kinetic Drive, please see
 [developers.seagate.com](http://developers.seagate.com/).
 
+*Note that the Erlang code here is experimental and so is subject to
+changes that can break backwards compatibility for stored data or for the
+network protocol between Riak and Kinetic Drives.*
+
 Installation
 ------------
 
